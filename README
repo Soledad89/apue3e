@@ -3,8 +3,53 @@ Read the file called DISCLAIMER.
 On Freebsd, type "gmake".
 On other platforms, type "make" (as long as this is gnu make).
 
-For FAQs, updated source code, and the lost chapter, see http://www.apuebook.com.
+Fc OS X 10.8
+	编译APUE（Unix环境高级编程）的源代码过程,对于用MAC学习Unix环境高级编程的同学会有些作用,需要的朋友可以参考下
+最近在温习APUE（《unix环境高级编程》），以前都是在linux下搞，现在打算在自己机器弄下，于是google了下，把编译的事情搞定了，修改了一些教程的一些错误，比如下载链接之类的。
+
+1、下载源文件，我这里是第二版，貌似第三版的英文版出来了。。。
+复制代码 代码如下:
+wget http://www.apuebook.com/src.2e.tar.gz
+
+2、解压
+复制代码 代码如下:
+tar zxf src.2e.tar.gz
+
+3、修改些东西
+复制代码 代码如下:
+cd apue.2e/
+vim Make.defines.macos
+WKDIR=/Users/chenqing/apue.2e //更改到你的代码的绝对路径
+vim include/apue.h
+在第11行后加入下面三句
+#ifdef MACOS
+ #define _DARWIN_C_SOURCE
+ #endif
+
+4、编译
+复制代码 代码如下:
+make all
+
+5、复制
+复制代码 代码如下:
+sudo cp include/apue.h /usr/include/
+sudo cp lib/error.c  /usr/include/
+
+6、修改apue.h
+在最后一行#endif  前面添加一行 #include “error.c”
+
+7、测试一下
+复制代码 代码如下:
+#include <apue.h>
+int main()
+{
+	         err_sys("some error found %d",getpid());
+			          return 0 ;
+}
+
+or FAQs, updated source code, and the lost chapter, see http://www.apuebook.com.
 Please direct questions, suggestions, and bug reports to sar@apuebook.com.
 
 Steve Rago
 January 2013
+
